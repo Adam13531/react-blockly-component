@@ -11,6 +11,7 @@ var BlocklyEditor = React.createClass({
     workspaceConfiguration: React.PropTypes.object,
     wrapperDivClassName: React.PropTypes.string,
     toolboxCategories: React.PropTypes.array,
+    xmlToolboxCategories: React.PropTypes.string,
     toolboxBlocks: React.PropTypes.array,
     xmlDidChange: React.PropTypes.func,
     onImportXmlError: React.PropTypes.func,
@@ -25,6 +26,12 @@ var BlocklyEditor = React.createClass({
   },
 
   componentDidMount: function() {
+    const { toolboxCategories, xmlToolboxCategories } = this.props;
+
+    if (typeof toolboxCategories !== 'undefined' && typeof xmlToolboxCategories !== 'undefined') {
+      throw new Error(`A BlocklyEditor should either have a prop 'toolboxCategories' or 'xmlToolboxCategories' but not both.`);
+    }
+
     this.toolboxDidUpdate();
   },
 
@@ -44,16 +51,18 @@ var BlocklyEditor = React.createClass({
 
   render: function() {
     var toolboxMode;
-    if (this.props.toolboxCategories) {
+    if (this.props.toolboxCategories || this.props.xmlToolboxCategories) {
       toolboxMode = "CATEGORIES";
     } else if (this.props.toolboxBlocks) {
       toolboxMode = "BLOCKS";
     }
 
+    const { toolboxCategories, xmlToolboxCategories } = this.props;
+
     return (
       <div className={this.props.wrapperDivClassName}>
         <BlocklyToolbox
-          categories={Immutable.fromJS(this.props.toolboxCategories)}
+          categories={xmlToolboxCategories ? xmlToolboxCategories : Immutable.fromJS(toolboxCategories)}
           blocks={Immutable.fromJS(this.props.toolboxBlocks)}
           didUpdate={this.toolboxDidUpdate}
           processCategory={this.props.processToolboxCategory}

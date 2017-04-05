@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/demos/code/msg/en.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/msg/js/en.js"></script>
+
+  <script src="react-blockly-component.js"></script>
+
+  <style type="text/css">
+  .fill-height {
+    height: 100%;
+  }
+  </style>
+
+  <script type="text/javascript">
+
+  const xmlToolboxCategories = `
+<category name="Hello" colour="210">
+  <block type="controls_if"></block>
+  <block type="controls_whileUntil"></block>
+  <block type="controls_for">
+</category>
+<category name="World" colour="120">
+  <block type="logic_compare"></block>
+  <block type="logic_operation"></block>
+  <block type="logic_boolean"></block>
+</category>
+<category name="From" colour="20">
+  <block type="start"></block>
+  <category name="Move">
+    <block type="math_arithmetic">
+      <field name="OP">ADD</field>
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Turn">
+    <block type="turn_left"></block>
+    <block type="turn_right"></block>
+  </category>
+</category>
+<category name="XML" colour="290">
+  <block type="math_number"></block>
+  <block type="math_arithmetic"></block>
+  <block type="math_single" disabled="true"></block>
+</category>
+`;
+
+  window.addEventListener('load', function() {
+    var editor = React.createElement(ReactBlocklyComponent.BlocklyEditor, {
+      workspaceConfiguration: {
+        grid: {
+          spacing: 20,
+          length: 3,
+          colour: '#ccc',
+          snap: true
+        }
+      },
+      xmlToolboxCategories,
+      initialXml: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="text" x="70" y="30"><field name="TEXT"></field></block></xml>',
+      wrapperDivClassName: 'fill-height',
+      xmlDidChange: function(newXml) {
+        document.getElementById('generated-xml').innerText = newXml;
+      }
+    });
+    ReactDOM.render(editor, document.getElementById('blockly'));
+  });
+  </script>
+</head>
+<body>
+  <div style="height: 600px; width: 800px;" id="blockly">
+  </div>
+  <pre id="generated-xml">
+  </pre>
+</body>
+</html>

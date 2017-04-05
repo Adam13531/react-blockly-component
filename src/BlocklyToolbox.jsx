@@ -7,7 +7,10 @@ import BlocklyToolboxBlock from './BlocklyToolboxBlock';
 
 var BlocklyToolbox = React.createClass({
   propTypes: {
-    categories: ImmutablePropTypes.list,
+    categories: React.PropTypes.oneOfType([
+      ImmutablePropTypes.list,
+      React.PropTypes.string,
+    ]),
     blocks: ImmutablePropTypes.list,
     processCategory: React.PropTypes.func,
     didUpdate: React.PropTypes.func
@@ -31,7 +34,13 @@ var BlocklyToolbox = React.createClass({
     }.bind(this));
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
+  shouldComponentUpdate: function(nextProps) {
+    const { categories, blocks } = this.props;
+
+    if (typeof categories === 'string') {
+      return categories !== nextProps.categories;
+    }
+
     return !(is(nextProps.categories, this.props.categories) && is(nextProps.blocks, this.props.blocks));
   },
 
@@ -60,16 +69,22 @@ var BlocklyToolbox = React.createClass({
   },
 
   render: function() {
-    if (this.props.categories) {
-      return (
-        <xml style={{display: "none"}}>
-          {this.renderCategories(this.props.categories.map(this.processCategory))}
-        </xml>
-      );
+    const { categories, blocks } = this.props;
+
+    if (categories) {
+      if (typeof categories === 'string') {
+        return <xml style={{display: "none"}} dangerouslySetInnerHTML={{ __html: categories }} />;
+      } else {
+        return (
+          <xml style={{display: "none"}}>
+            {this.renderCategories(categories.map(this.processCategory))}
+          </xml>
+        );
+      }
     } else {
       return (
         <xml style={{display: "none"}}>
-          {this.props.blocks.map(BlocklyToolboxBlock.renderBlock)}
+          {blocks.map(BlocklyToolboxBlock.renderBlock)}
         </xml>
       );
     }
