@@ -8,12 +8,15 @@ import BlocklyWorkspace from './BlocklyWorkspace';
 var BlocklyEditor = React.createClass({
   propTypes: {
     initialXml: React.PropTypes.string,
+    updateWorkspaceBasedOnXml: React.PropTypes.bool.isRequired,
     workspaceConfiguration: React.PropTypes.object,
     wrapperDivClassName: React.PropTypes.string,
     toolboxCategories: React.PropTypes.array,
     xmlToolboxCategories: React.PropTypes.string,
     toolboxBlocks: React.PropTypes.array,
     xmlDidChange: React.PropTypes.func,
+    codeDidChange: React.PropTypes.func,
+    languageToGenerate: React.PropTypes.string,
     onImportXmlError: React.PropTypes.func,
     processToolboxCategory: React.PropTypes.func
   },
@@ -38,6 +41,12 @@ var BlocklyEditor = React.createClass({
   xmlDidChange: function(newXml) {
     if (this.props.xmlDidChange) {
       this.props.xmlDidChange(newXml);
+    }
+  },
+
+  codeDidChange: function (newCode) {
+    if (this.props.codeDidChange) {
+      this.props.codeDidChange(newCode);
     }
   },
 
@@ -69,9 +78,12 @@ var BlocklyEditor = React.createClass({
           ref="toolbox" />
         <BlocklyWorkspace ref="workspace"
           initialXml={this.props.initialXml}
+          updateWorkspaceBasedOnXml={this.props.updateWorkspaceBasedOnXml}
           onImportXmlError={this.props.onImportXmlError}
           toolboxMode={toolboxMode}
           xmlDidChange={this.xmlDidChange}
+          codeDidChange={this.codeDidChange}
+          languageToGenerate={this.props.languageToGenerate}
           wrapperDivClassName={this.props.wrapperDivClassName}
           workspaceConfiguration={this.props.workspaceConfiguration} />
       </div>

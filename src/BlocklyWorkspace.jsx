@@ -17,9 +17,12 @@ var debounce = function(func, wait) {
 var BlocklyWorkspace = React.createClass({
   propTypes: {
     initialXml: React.PropTypes.string,
+    updateWorkspaceBasedOnXml: React.PropTypes.bool.isRequired,
     workspaceConfiguration: React.PropTypes.object,
     wrapperDivClassName: React.PropTypes.string,
     xmlDidChange: React.PropTypes.func,
+    codeDidChange: React.PropTypes.func,
+    languageToGenerate: React.PropTypes.string,
     onImportXmlError: React.PropTypes.func,
     toolboxMode: React.PropTypes.oneOf(['CATEGORIES', 'BLOCKS'])
   },
@@ -27,7 +30,8 @@ var BlocklyWorkspace = React.createClass({
   getInitialState: function() {
     return {
       workspace: null,
-      xml: this.props.initialXml
+      xml: this.props.initialXml,
+      code: null,
     };
   },
 
@@ -43,23 +47,53 @@ var BlocklyWorkspace = React.createClass({
     if (this.state.xml) {
       if (this.importFromXml(this.state.xml)) {
         this.xmlDidChange();
+
+        // There was XML, so there should probably be code as well.
+        const code = this.getCodeFromWorkspace();
+        this.setState({code}, this.codeDidChange);
       } else {
-        this.setState({xml: null}, this.xmlDidChange);
+        this.setState({xml: null, code: null}, () => {
+          this.xmlDidChange();
+          this.codeDidChange();
+        });
       }
     }
 
     this.state.workspace.addChangeListener(debounce(function() {
       var newXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.state.workspace));
+
+      // If the XML didn't change, then the code couldn't possibly have changed.
       if (newXml == this.state.xml) {
         return;
       }
+
+      this.checkIfCodeChanged();
 
       this.setState({xml: newXml}, this.xmlDidChange);
     }.bind(this), 200));
   },
 
+  checkIfCodeChanged: function() {
+    const newCode = this.getCodeFromWorkspace();
+    if (newCode !== this.state.code) {
+      this.setState({code: newCode}, this.codeDidChange);
+    }
+  },
+
+  getCodeFromWorkspace: function() {
+    if (this.props.languageToGenerate) {
+      const code = Blockly[this.props.languageToGenerate].workspaceToCode(this.state.workspace);
+      return code;
+    } else {
+      return null;
+    }
+  },
+
   importFromXml: function(xml) {
     try {
+      // Clear it in case we already had a workspace, that way we don't end up
+      // adding to the existing workspace.
+      this.state.workspace.clear();
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this.state.workspace);
       return true;
     } catch (e) {
@@ -72,7 +106,13 @@ var BlocklyWorkspace = React.createClass({
 
   componentWillReceiveProps: function(newProps) {
     if (this.props.initialXml != newProps.initialXml) {
-      this.setState({xml: newProps.initialXml});
+      this.setState({xml: newProps.initialXml}, () =>  {
+        if (newProps.updateWorkspaceBasedOnXml) {
+          this.importFromXml(newProps.initialXml);
+        }
+      });
+
+      this.checkIfCodeChanged();
     }
   },
 
@@ -89,6 +129,14 @@ var BlocklyWorkspace = React.createClass({
   xmlDidChange: function() {
     if (this.props.xmlDidChange) {
       this.props.xmlDidChange(this.state.xml);
+    }
+  },
+
+  // The code can only change when the XML changes, but it doesn't necessarily
+  // change every time the XML changes (e.g. if you just relocated a block).
+  codeDidChange: function() {
+    if (this.props.codeDidChange) {
+      this.props.codeDidChange(this.state.code);
     }
   },
 
