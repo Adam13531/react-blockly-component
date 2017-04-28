@@ -47,7 +47,8 @@
       wrapperDivClassName: 'fill-height',
       xmlDidChange: function(newXml) {
         document.getElementById('generated-xml').innerText = newXml;
-      }
+      },
+      updateWorkspaceBasedOnXml: false
     });
     ReactDOM.render(editor, document.getElementById('blockly'));
   });
