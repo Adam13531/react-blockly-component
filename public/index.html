@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.js"></script>
   <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
   <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
   <script src="https://blockly-demo.appspot.com/static/demos/code/msg/en.js"></script>
@@ -85,7 +84,8 @@
       wrapperDivClassName: 'fill-height',
       xmlDidChange: function(newXml) {
         document.getElementById('generated-xml').innerText = newXml;
-      }
+      },
+      updateWorkspaceBasedOnXml: false
     });
     ReactDOM.render(editor, document.getElementById('blockly'));
   });
