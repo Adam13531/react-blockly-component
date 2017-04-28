@@ -1,3 +1,4 @@
+import createReactClass from 'create-react-class';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,7 +7,7 @@ import ReactDOM from 'react-dom';
 import BlocklyToolbox from './BlocklyToolbox';
 import BlocklyWorkspace from './BlocklyWorkspace';
 
-var BlocklyEditor = React.createClass({
+var BlocklyEditor = createReactClass({
   propTypes: {
     initialXml: PropTypes.string,
     updateWorkspaceBasedOnXml: PropTypes.bool.isRequired,

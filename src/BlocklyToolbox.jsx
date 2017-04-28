@@ -1,4 +1,5 @@
 import { is } from 'immutable';
+import createReactClass from 'create-react-class';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,7 +7,7 @@ import React from 'react';
 import BlocklyToolboxCategory from './BlocklyToolboxCategory';
 import BlocklyToolboxBlock from './BlocklyToolboxBlock';
 
-var BlocklyToolbox = React.createClass({
+var BlocklyToolbox = createReactClass({
   propTypes: {
     categories: PropTypes.oneOfType([
       ImmutablePropTypes.list,

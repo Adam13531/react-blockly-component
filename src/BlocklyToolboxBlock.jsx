@@ -1,10 +1,11 @@
+import createReactClass from 'create-react-class';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutableRenderMixin from 'react-immutable-render-mixin';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var BlocklyToolboxBlock = React.createClass({
+var BlocklyToolboxBlock = createReactClass({
   mixins: [ImmutableRenderMixin],
 
   propTypes: {

@@ -1,3 +1,4 @@
+import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,7 +16,7 @@ var debounce = function(func, wait) {
 	};
 };
 
-var BlocklyWorkspace = React.createClass({
+var BlocklyWorkspace = createReactClass({
   propTypes: {
     initialXml: PropTypes.string,
     updateWorkspaceBasedOnXml: PropTypes.bool.isRequired,
