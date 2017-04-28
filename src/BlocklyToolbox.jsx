@@ -1,19 +1,20 @@
-import React from 'react';
 import { is } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import BlocklyToolboxCategory from './BlocklyToolboxCategory';
 import BlocklyToolboxBlock from './BlocklyToolboxBlock';
 
 var BlocklyToolbox = React.createClass({
   propTypes: {
-    categories: React.PropTypes.oneOfType([
+    categories: PropTypes.oneOfType([
       ImmutablePropTypes.list,
-      React.PropTypes.string,
+      PropTypes.string,
     ]),
     blocks: ImmutablePropTypes.list,
-    processCategory: React.PropTypes.func,
-    didUpdate: React.PropTypes.func
+    processCategory: PropTypes.func,
+    didUpdate: PropTypes.func
   },
 
   renderCategories: function(categories) {

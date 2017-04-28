@@ -1,21 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutableRenderMixin from 'react-immutable-render-mixin';
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 var BlocklyToolboxBlock = React.createClass({
   mixins: [ImmutableRenderMixin],
 
   propTypes: {
-    type: React.PropTypes.string.isRequired,
-    shadow: React.PropTypes.bool,
+    type: PropTypes.string.isRequired,
+    shadow: PropTypes.bool,
     fields: ImmutablePropTypes.map,
     values: ImmutablePropTypes.map,
     statements: ImmutablePropTypes.map,
     next: ImmutablePropTypes.map,
     mutation: ImmutablePropTypes.mapContains({
       attributes: ImmutablePropTypes.map,
-      innerContent: React.PropTypes.string
+      innerContent: PropTypes.string
     })
   },
 

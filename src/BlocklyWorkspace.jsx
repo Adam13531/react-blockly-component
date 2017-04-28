@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -16,15 +17,15 @@ var debounce = function(func, wait) {
 
 var BlocklyWorkspace = React.createClass({
   propTypes: {
-    initialXml: React.PropTypes.string,
-    updateWorkspaceBasedOnXml: React.PropTypes.bool.isRequired,
-    workspaceConfiguration: React.PropTypes.object,
-    wrapperDivClassName: React.PropTypes.string,
-    xmlDidChange: React.PropTypes.func,
-    codeDidChange: React.PropTypes.func,
-    languageToGenerate: React.PropTypes.string,
-    onImportXmlError: React.PropTypes.func,
-    toolboxMode: React.PropTypes.oneOf(['CATEGORIES', 'BLOCKS'])
+    initialXml: PropTypes.string,
+    updateWorkspaceBasedOnXml: PropTypes.bool.isRequired,
+    workspaceConfiguration: PropTypes.object,
+    wrapperDivClassName: PropTypes.string,
+    xmlDidChange: PropTypes.func,
+    codeDidChange: PropTypes.func,
+    languageToGenerate: PropTypes.string,
+    onImportXmlError: PropTypes.func,
+    toolboxMode: PropTypes.oneOf(['CATEGORIES', 'BLOCKS'])
   },
 
   getInitialState: function() {

@@ -1,24 +1,25 @@
+import Immutable from 'immutable';
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Immutable from 'immutable';
 
 import BlocklyToolbox from './BlocklyToolbox';
 import BlocklyWorkspace from './BlocklyWorkspace';
 
 var BlocklyEditor = React.createClass({
   propTypes: {
-    initialXml: React.PropTypes.string,
-    updateWorkspaceBasedOnXml: React.PropTypes.bool.isRequired,
-    workspaceConfiguration: React.PropTypes.object,
-    wrapperDivClassName: React.PropTypes.string,
-    toolboxCategories: React.PropTypes.array,
-    xmlToolboxCategories: React.PropTypes.string,
-    toolboxBlocks: React.PropTypes.array,
-    xmlDidChange: React.PropTypes.func,
-    codeDidChange: React.PropTypes.func,
-    languageToGenerate: React.PropTypes.string,
-    onImportXmlError: React.PropTypes.func,
-    processToolboxCategory: React.PropTypes.func
+    initialXml: PropTypes.string,
+    updateWorkspaceBasedOnXml: PropTypes.bool.isRequired,
+    workspaceConfiguration: PropTypes.object,
+    wrapperDivClassName: PropTypes.string,
+    toolboxCategories: PropTypes.array,
+    xmlToolboxCategories: PropTypes.string,
+    toolboxBlocks: PropTypes.array,
+    xmlDidChange: PropTypes.func,
+    codeDidChange: PropTypes.func,
+    languageToGenerate: PropTypes.string,
+    onImportXmlError: PropTypes.func,
+    processToolboxCategory: PropTypes.func
   },
 
   toolboxDidUpdate: function() {
