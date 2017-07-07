@@ -112,9 +112,12 @@ var BlocklyWorkspace = createReactClass({
         if (newProps.updateWorkspaceBasedOnXml) {
           this.importFromXml(newProps.initialXml);
         }
-      });
 
-      this.checkIfCodeChanged();
+        // This needs to be called from the setState callback or else we would
+        // be acting on the old workspace in this.state, so we wouldn't detect
+        // that the code changed.
+        this.checkIfCodeChanged();
+      });
     }
   },
 
