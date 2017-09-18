@@ -46,18 +46,17 @@ var BlocklyWorkspace = createReactClass({
       })
     );
 
+    // Note: I specifically do not call xmlDidChange or codeDidChange here
+    // because the component is mounting for the first time. By not calling
+    // those functions, I can set an "isDirty" flag without XML/code comparisons
+    // on the caller side.
     if (this.state.xml) {
       if (this.importFromXml(this.state.xml)) {
-        this.xmlDidChange();
-
         // There was XML, so there should probably be code as well.
         const code = this.getCodeFromWorkspace();
-        this.setState({code}, this.codeDidChange);
+        this.setState({code});
       } else {
-        this.setState({xml: null, code: null}, () => {
-          this.xmlDidChange();
-          this.codeDidChange();
-        });
+        this.setState({xml: null, code: null});
       }
     }
 
