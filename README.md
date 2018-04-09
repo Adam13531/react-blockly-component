@@ -1,3 +1,7 @@
+# NOTE TO SELF
+
+**I now have this in my Lerna repository, so you won't see any changes here.**
+
 # react-blockly-component
 
 A React component that embeds a [Blockly](https://developers.google.com/blockly/) visual programming editor.
